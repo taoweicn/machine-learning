@@ -14,7 +14,7 @@ def main():
         X_train = [one_hot_encoder(10000, line.strip().split(' ')) for line in f.readlines()]
 
     with open('data/train/train_labels.txt', 'r') as f:
-        y_train = np.array([int(line.strip()) for line in f.readlines()])
+        y_train = [int(line.strip()) for line in f.readlines()]
 
     # from sklearn.model_selection import train_test_split
     # X_train, X_test, y_train, y_test = train_test_split(X_train, y_train)
@@ -22,7 +22,7 @@ def main():
     dt_clf.fit(X_train, y_train)
     # print(dt_clf.score(X_test, y_test))
 
-    with open('data/train/train_data.txt', 'r') as f:
+    with open('data/test/test_data.txt', 'r') as f:
         X_test = [one_hot_encoder(10000, line.strip().split(' ')) for line in f.readlines()]
 
     y_predict = dt_clf.predict(X_test)
