@@ -79,6 +79,7 @@ def main():
     from sklearn.naive_bayes import MultinomialNB
     errors_rate, errors_index = cross_validation(MultinomialNB(), vec_list, class_list, cv=5)
     print(errors_rate, errors_index)
+    print('平均错误率：', sum(errors_rate) / len(errors_rate))
 
 
 if __name__ == '__main__':

@@ -150,20 +150,22 @@ def text_classifier(train_feature_list, test_feature_list, train_class_list, tes
 
 
 def main():
-    # 文本预处理
-    folder_path = 'data/SogouC/Sample'
-    all_words_list, train_data_list, test_data_list, train_class_list, test_class_list = \
-        text_processing(folder_path, test_size=0.2)
+    for i in range(1, 5):
+        for delete_n in range(400, 500, 20):
+            # 文本预处理
+            folder_path = 'data/SogouC/Sample'
+            all_words_list, train_data_list, test_data_list, train_class_list, test_class_list = \
+                text_processing(folder_path, test_size=i * 0.1)
 
-    # 生成stopwords_set
-    stopwords_file = 'data/stopwords_cn.txt'
-    stopwords_set = make_words_set(stopwords_file)
+            # 生成stopwords_set
+            stopwords_file = 'data/stopwords_cn.txt'
+            stopwords_set = make_words_set(stopwords_file)
 
-    # 文本特征提取和分类
-    delete_n = 450
-    feature_words = words_dict(all_words_list, delete_n, stopwords_set)
-    train_feature_list, test_feature_list = text_features(train_data_list, test_data_list, feature_words)
-    print(text_classifier(train_feature_list, test_feature_list, train_class_list, test_class_list))
+            # 文本特征提取和分类
+            feature_words = words_dict(all_words_list, delete_n, stopwords_set)
+            train_feature_list, test_feature_list = text_features(train_data_list, test_data_list, feature_words)
+            test_accuracy = text_classifier(train_feature_list, test_feature_list, train_class_list, test_class_list)
+            print('test_size = %f, delete_N = %d, test_accuracy = %f' % (i * 0.1, delete_n, test_accuracy))
 
 
 if __name__ == '__main__':
