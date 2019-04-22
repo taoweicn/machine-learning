@@ -14,7 +14,6 @@ def main():
 
     clf = MLPClassifier()
     clf.fit(vectors_train, y_train)
-    # print(clf.score(vectors_train, y_train))
 
     with open('data/test/test_texts.dat', 'rb') as f:
         test_text = pickle.load(f)
