@@ -1,6 +1,6 @@
 import pickle
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.neural_network import MLPClassifier, BernoulliRBM
+from sklearn.neural_network import MLPClassifier
 
 
 def main():
@@ -12,23 +12,21 @@ def main():
     with open('data/train/train_labels.txt', 'r') as f:
         y_train = [int(line.strip()) for line in f.readlines()]
 
-    # clf = MLPClassifier()
-    # clf.fit(vectors_train, y_train)
-    rbm = BernoulliRBM(random_state=0, verbose=True)
-    rbm.fit(vectors_train, y_train)
+    clf = MLPClassifier()
+    clf.fit(vectors_train, y_train)
 
     with open('data/test/test_texts.dat', 'rb') as f:
         test_text = pickle.load(f)
     vectorizer = TfidfVectorizer(max_features=10000)
     vectors_test = vectorizer.fit_transform(test_text)
 
-    y_predict = rbm.predict(vectors_test)
-    # with open('data/test/predict_data.txt', 'w') as f:
-    #     f.write('\n'.join([str(num) for num in y_predict]))
+    y_predict = clf.predict(vectors_test)
+    with open('data/test/predict_data.txt', 'w') as f:
+        f.write('\n'.join([str(num) for num in y_predict]))
 
     with open('data/test/test_labels.txt', 'r') as f:
         y_test = [int(line.strip()) for line in f.readlines()]
-    print(sum(y_predict == y_test) / len(y_test))
+    print('score:', sum(y_predict == y_test) / len(y_test))
 
 
 if __name__ == '__main__':
