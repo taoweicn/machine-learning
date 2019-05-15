@@ -1,11 +1,15 @@
+import csv
 import numpy as np
 from itertools import groupby
 
 
+# import warnings
+# warnings.filterwarnings('ignore')
+
+
 def load_data(filename):
     with open(filename, 'r', encoding='iso-8859-1') as f:
-        data = [line.strip().split(',') for line in f.readlines()]
-    return data
+        return list(csv.reader(f))
 
 
 def split_data(dataset):
@@ -47,16 +51,27 @@ def main():
     from sklearn.cluster import KMeans
     from sklearn.metrics import davies_bouldin_score
 
+    clusters_num = range(2, 10)
+
     X, y, labels = split_data(load_data('data/DataSetKMeans1.csv'))
     X = reduce_dimension(X, 5)
-    for n in range(2, 10):
+    print("dataset1")
+    print("clusters_num:", ', '.join(map(str, clusters_num)))
+    print_str = "DBI:"
+    for n in clusters_num:
         kmeans = KMeans(n_clusters=n).fit(X)
-        print('DBI:', davies_bouldin_score(X, kmeans.labels_))
+        print_str += str(' %.2f' % davies_bouldin_score(X, kmeans.labels_))
+    print(print_str, '\n')
 
     X, y, labels = split_data(load_data('data/DataSetKMeans2.csv'))
-    for n in range(2, 10):
+    X = reduce_dimension(X, 5)
+    print("dataset2")
+    print("clusters_num:", ', '.join(map(str, clusters_num)))
+    print_str = "DBI:"
+    for n in clusters_num:
         kmeans = KMeans(n_clusters=n).fit(X)
-        print('DBI:', davies_bouldin_score(X, kmeans.labels_))
+        print_str += str(' %.2f' % davies_bouldin_score(X, kmeans.labels_))
+    print(print_str, '\n')
 
 
 if __name__ == '__main__':

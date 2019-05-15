@@ -193,6 +193,9 @@ def binarize(X, y, estimator):
 
 
 def data_processing(X, y, estimator):
+    """
+    对合并和分割进行测试
+    """
     scores = [
         calc_score(X, y, estimator),
         calc_score(merge(X), y, estimator),
